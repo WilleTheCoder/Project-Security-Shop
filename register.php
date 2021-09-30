@@ -5,15 +5,13 @@ session_start();
 require_once "config.php";
 
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
+$username = $password = $confirm_password = $address = "";
+$username_err = $password_err = $confirm_password_err = $address_err = "";
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-
+    // Validate username
     if (!preg_match('/^[a-zA-Z0-9_]{6,}$/', trim($_POST["username"]))) {
         $username_err = "Username can only contain letters, numbers, and underscores and must be longer than 6 characters.";
     } else {
@@ -52,6 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password_err = "Please enter a password.";
     } elseif (strlen(trim($_POST["password"])) < 6) {
         $password_err = "Password must have atleast 6 characters.";
+    } elseif (checkBlacklist($_POST['password'])) {
+        $password_err = "Password is blacklisted, choose a better one!";
     } else {
         $password = trim($_POST["password"]);
     }
@@ -66,19 +66,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+    // Validate address
+    if (empty(trim($_POST["address"]))) {
+        $address_err = "Please enter a valid address.";
+    } else {
+        $address = trim($_POST["address"]);
+    }
 
     // Check input errors before inserting in database
-    if (empty($username_err) && empty($password_err) && empty($confirm_password_err)) {
+    if (empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($address_err)) {
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $sql = "INSERT INTO users (username, password, address) VALUES (?, ?, ?)";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
+            mysqli_stmt_bind_param($stmt, "sss", $param_username, $param_password, $param_address);
 
             // Set parameters
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
+            $param_address = $address;
 
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
@@ -97,6 +104,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+<?php
+//return true if the password is blacklisted
+function checkBlacklist($password)
+{
+    $path = 'resource/passwordblacklist.txt';
+    $blacklist = fopen($path, 'r');
+
+    if ($blacklist) {
+        while (($line = fgets($blacklist)) !== false) {
+            if ((trim($line)) == $password) {
+                return true;
+            }
+        }
+        fclose($blacklist);
+        return false;
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -112,29 +137,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.php"> <i class="bi bi-file-earmark-lock-fill"></i> Security Shop</a>
-            <div>
-                <ul class="navbar-nav justify-content-end">
-                    <li class="nav-item">
-                        <a class="nav-link" href='login.php'> <i class="bi bi-box-arrow-in-right"></i> Login</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href='register.php'> <i class="bi bi-person-plus"></i> Register</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="shop.php"> <i class="bi bi-cart2"></i></i> Cart</a>
-                    </li>
-
-
-                </ul>
-            </div>
-
-        </div>
-    </nav>
+    <?php
+    include 'navbar.php';
+    ?>
 
     <div class="container">
 
@@ -143,20 +148,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p>Please fill this form to create an account.</p>
             <div class="form-group mt-4">
                 <label>Username</label>
-                <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>" required>
+                <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
                 <span class="invalid-feedback"><?php echo $username_err; ?></span>
             </div>
             <div class="form-group mt-4">
                 <label>Password</label>
-                <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>" required>
+                <input type="password" name="password" class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
                 <span class="invalid-feedback"><?php echo $password_err; ?></span>
             </div>
 
             <div class="form-group mt-4">
                 <label>Confirm Password</label>
-                <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>" required>
+                <input type="password" name="confirm_password" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
                 <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
             </div>
+
+            <div class="form-group mt-4">
+                <label>Address</label>
+                <input type="text" name="address" class="form-control <?php echo (!empty($address_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $address; ?>">
+                <span class="invalid-feedback"><?php echo $address_err; ?></span>
+            </div>
+
             <div class="form-group mt-4">
                 <input type="submit" class="btn btn-primary" value="Submit">
                 <input type="reset" class="btn btn-secondary ml-2" value="Reset">

@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['loggedin'] = TRUE;
             $_SESSION['name'] = $_POST['username'];
             echo 'Hello ' . $_SESSION['name'];
+            header('Location: index.php');
         } else {
             // Incorrect password
             $username_err = 'Incorrect username and/or password!';
@@ -66,29 +67,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
 
-    <nav class="navbar navbar-expand-md">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.php"> <i class="bi bi-file-earmark-lock-fill"></i> Security Shop</a>
-            <div>
-                <ul class="navbar-nav justify-content-end">
-                    <li class="nav-item">
-                        <a class="nav-link" href='login.php'> <i class="bi bi-box-arrow-in-right"></i> Login</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href='register.php'> <i class="bi bi-person-plus"></i> Register</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="shop.php"> <i class="bi bi-cart2"></i></i> Cart</a>
-                    </li>
-
-
-                </ul>
-            </div>
-
-        </div>
-    </nav>
+    <?php
+    include 'navbar.php';
+    ?>
 
     <div class="container">
 
