@@ -81,3 +81,19 @@ body{
     text-align: center;
     border-top: 2px solid rgb(0, 132, 255);
 }
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+.card{
+    height: 500px;
+    transition: 0.5s ease;
+}
+
+.card:hover{
+background-color: rgba(206, 206, 206, 0.459);
+}
+  

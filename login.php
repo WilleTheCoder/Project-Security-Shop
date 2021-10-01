@@ -90,8 +90,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="submit" class="btn btn-primary" value="Submit">
                 <input type="reset" class="btn btn-secondary ml-2" value="Reset">
             </div>
+            <p class="mt-4"> No account? <a href="register.php">Register here</a>.</p>
         </form>
-
 
     </div>
 

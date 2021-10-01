@@ -23,6 +23,8 @@ CREATE TABLE products (
   id INTEGER NOT NULL UNIQUE AUTO_INCREMENT,
   product_name VARCHAR(255) NOT NULL UNIQUE,
   price FLOAT NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  img VARCHAR(255),
   PRIMARY KEY (id)
 );
 
@@ -42,6 +44,8 @@ VALUES
   ('Svampbob2', 'password1', 'Lund, Svampgatan 15A');
 
 INSERT INTO
-  products (product_name, price)
+  products (product_name, price, description, img)
 VALUES
-  ('Exotisk svamp', 10000);
+  ('Exotisk svamp', 10000, "Exotic swamp for the swamp-king", "exotic-swamp"),
+  ('Enkel svamp', 100, "Just a simple swamp, found anywhere.", "simple-swamp")
+  

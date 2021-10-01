@@ -7,6 +7,19 @@ require_once "config.php";
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
 $_POST["confirm_password"] = "";
+
+// Prepare a select statement
+$sql = "SELECT * FROM products";
+
+$result = mysqli_query($link, $sql);
+
+$products = array();
+if (mysqli_num_rows($result) > 0) {
+	while ($row = mysqli_fetch_assoc($result)) {
+		$products[] = $row;
+	}
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +30,7 @@ $_POST["confirm_password"] = "";
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-	<link rel="stylesheet" href="./css/master.css">
+	<link href="./css/master.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 	<title>Home</title>
 </head>
@@ -29,41 +42,39 @@ $_POST["confirm_password"] = "";
 	?>
 
 	<div class="container">
+		<h4>Shop</h4>
+		<div class="row py-2">
 
-		<div class="row">
-			<h4>Shop</h4>
-			<div class="col-xs-12 col-sm-6 col-lg-3 d-flex justify-content-center text-center">
-				<div class="item-container"></div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-lg-3 d-flex justify-content-center text-center">
-				<div class="item-container"></div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-lg-3 d-flex justify-content-center text-center">
-				<div class="item-container"></div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-lg-3 d-flex justify-content-center text-center">
-				<div class="item-container"></div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-lg-3 d-flex justify-content-center text-center">
-				<div class="item-container"></div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-lg-3 d-flex justify-content-center text-center">
-				<div class="item-container"></div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-lg-3 d-flex justify-content-center text-center">
-				<div class="item-container"></div>
-			</div>
-			<div class="col-xs-12 col-sm-6 col-lg-3 d-flex justify-content-center text-center">
-				<div class="item-container"></div>
-			</div>
+			<?php foreach ($products as $product) : ?>
+				<div class="col-md-3 col-sm-6 my-3 my-md-0">
+					<form action="" method="post">
+						<div class="card-group">
+							<div class="card">
+								<div>
+									<?php
+									echo "<img src='resource/img/" . $product['img'] . '.jpg' . " ' alt='error' class='card-img-top'>";
+									?>
 
+								</div>
+								<div class="card-body">
+									<h4><?php echo $product['product_name'] ?></h4>
+									<p class="card-text"><?php echo $product['description'] ?></p>
+									<p><span class="price"><?php echo $product['price'] . 'kr'?></span></p>
+									<input class="btn btn-primary" type="submit" value="Add to cart">
+								</div>
+							</div>
+						</div>
+					</form>
+
+				</div>
+
+			<?php endforeach; ?>
 		</div>
-
 	</div>
 
-	<footer class="page-footer">
-		<p>Security Shop</p>
-	</footer>
+		<footer class="page-footer">
+			<p>Security Shop</p>
+		</footer>
 
 
 </body>
