@@ -1,4 +1,9 @@
 <?php
+
+//XSS (and CSRF) protecc
+header("Set-Cookie: name=value; HttpOnly; SameSite=lax");
+header("Content-Security-Policy: img-src * default-src 'self' script-src 'none'; style-src *; ");
+
 /* Database credentials. Assuming you are running MySQL
 server with default setting (user 'root' with no password) */
 define('DB_SERVER', 'localhost');

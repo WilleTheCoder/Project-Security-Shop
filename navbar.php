@@ -4,6 +4,10 @@
 			<div>
 				<ul class="navbar-nav justify-content-end">
 
+					<form action="index.php" method="get">
+					Search <input type="text" name="search"><input type ="submit" name="search_form_submit" value="Send">
+					</form>
+
 					<?php
 					if (isset($_SESSION['name'])) {
 						echo " <li class='nav-item'> <a class='nav-link'>" . $_SESSION['name'] . "</a> </li>";

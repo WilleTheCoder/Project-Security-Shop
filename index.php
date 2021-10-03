@@ -7,11 +7,60 @@ require_once "config.php";
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
 $_POST["confirm_password"] = "";
+$searched = "";
 
 // Prepare a select statement
-$sql = "SELECT * FROM products";
+//if user has searched for anything
+if(isset($_GET['search_form_submit']))
+    {
+		$searched = $_GET['search'];
 
-$result = mysqli_query($link, $sql);
+		//A) susceptible to sql-injection BUT WORKS:
+		
+		$sql = "SELECT * FROM products WHERE product_name LIKE '%$searched%'";
+		$stmt = mysqli_query($link, $sql);
+		
+
+
+		//B) supposed to protect against sql-injection but binds params faultly?:
+		
+		/* $sql = "SELECT * FROM products WHERE product_name LIKE ?";
+
+		if ($stmt = mysqli_query($link, $sql)){
+			// Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "s", $param_searched);
+
+            // Set parameters
+            $param_searched = trim($_GET["search"]);
+		} */
+
+		//C) another angle
+		/*
+		$sql = "SELECT * FROM products WHERE product_name LIKE ?";
+
+		$stmt = $link->prepare($sql);
+
+		$stmt->bind_param('s', $searched);
+
+		*/
+
+		//D) yet another try
+		/*
+		$sql = "SELECT * FROM products WHERE product_name LIKE ?";
+
+		$stmt = mysqli_query($link, $sql);
+
+		mysqli_stmt_bind_param($stmt, "s", $searched);
+		*/
+
+	} 
+	//if nothing was searched
+	else {
+		$sql = "SELECT * FROM products";
+		$stmt = mysqli_query($link, $sql);
+	}
+
+$result = $stmt;
 
 $products = array();
 if (mysqli_num_rows($result) > 0) {
@@ -43,6 +92,15 @@ if (mysqli_num_rows($result) > 0) {
 
 	<div class="container">
 		<h4>Shop</h4>
+
+		<h4><?php 
+		if($searched != "")
+		{
+			echo htmlspecialchars("Results for '$searched'");
+		}
+		?></h4>
+
+
 		<div class="row py-2">
 
 			<?php foreach ($products as $product) : ?>
