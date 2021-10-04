@@ -11,64 +11,32 @@ $searched = "";
 
 // Prepare a select statement
 //if user has searched for anything
-if(isset($_GET['search_form_submit']))
-    {
-		$searched = $_GET['search'];
+if (isset($_GET['search_form_submit'])) {
+	$searched = $_GET['search'];
 
-		//A) susceptible to sql-injection BUT WORKS:
-		
-		$sql = "SELECT * FROM products WHERE product_name LIKE '%$searched%'";
-		$stmt = mysqli_query($link, $sql);
-		
+	//A) susceptible to sql-injection BUT WORKS:
 
+	//$sql = "SELECT * FROM products WHERE product_name LIKE '%$searched%'";
+	//$stmt = mysqli_query($link, $sql);
 
-		//B) supposed to protect against sql-injection but binds params faultly?:
-		
-		/* $sql = "SELECT * FROM products WHERE product_name LIKE ?";
-
-		if ($stmt = mysqli_query($link, $sql)){
-			// Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_searched);
-
-            // Set parameters
-            $param_searched = trim($_GET["search"]);
-		} */
-
-		//C) another angle
-		/*
-		$sql = "SELECT * FROM products WHERE product_name LIKE ?";
-
-		$stmt = $link->prepare($sql);
-
-		$stmt->bind_param('s', $searched);
-
-		*/
-
-		//D) yet another try
-		/*
-		$sql = "SELECT * FROM products WHERE product_name LIKE ?";
-
-		$stmt = mysqli_query($link, $sql);
-
-		mysqli_stmt_bind_param($stmt, "s", $searched);
-		*/
-
-	} 
-	//if nothing was searched
-	else {
-		$sql = "SELECT * FROM products";
-		$stmt = mysqli_query($link, $sql);
+	//B) Protects against sql-injection:
+	$sql = "SELECT * FROM products WHERE product_name LIKE CONCAT( '%',?,'%')";
+	if ($stmt = mysqli_prepare($link, $sql)) {
+		mysqli_stmt_bind_param($stmt, "s", $param_searched);
+		$param_searched = trim($_GET["search"]);
 	}
+} else {
+	$sql = "SELECT * FROM products";
+	$stmt = mysqli_prepare($link, $sql);
+}
 
-$result = $stmt;
-
-$products = array();
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 if (mysqli_num_rows($result) > 0) {
-	while ($row = mysqli_fetch_assoc($result)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$products[] = $row;
 	}
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -93,46 +61,60 @@ if (mysqli_num_rows($result) > 0) {
 	<div class="container">
 		<h4>Shop</h4>
 
-		<h4><?php 
-		if($searched != "")
-		{
-			echo htmlspecialchars("Results for '$searched'");
-		}
-		?></h4>
+		<h4><?php
+			if ($searched != "") {
+				echo htmlspecialchars("Results for '$searched'");
+			}
+			?></h4>
 
 
 		<div class="row py-2">
 
-			<?php foreach ($products as $product) : ?>
-				<div class="col-md-3 col-sm-6 my-3 my-md-0">
-					<form action="" method="post">
-						<div class="card-group">
-							<div class="card">
-								<div>
-									<?php
-									echo "<img src='resource/img/" . $product['img'] . '.jpg' . " ' alt='error' class='card-img-top'>";
-									?>
+			<?php if (!(empty($products))) {
+				foreach ($products as $product) : ?>
+					<div class=" col-12 col-md-6 col-lg-5 col-xl-3 ">
+						<form action="" method="post">
+							<div class="card-group mt-4">
+								<div class="card" style="width: 18rem;">
+									<div>
+										<?php
+										echo "<img src='resource/img/" . $product['img'] . '.jpg' . " ' alt='error' class='card-img-top'>";
+										?>
 
-								</div>
-								<div class="card-body">
-									<h4><?php echo $product['product_name'] ?></h4>
-									<p class="card-text"><?php echo $product['description'] ?></p>
-									<p><span class="price"><?php echo $product['price'] . 'kr'?></span></p>
-									<input class="btn btn-primary" type="submit" value="Add to cart">
+									</div>
+									<div class="card-body">
+
+										<ul class="list-group list-group-flush">
+											<li class="list-group-item">
+												<h4><?php echo $product['product_name'] ?></h4>
+											</li>
+											<li class="list-group-item">
+												<p id="description" class="card-text"><?php echo $product['description'] ?></p>
+											</li>
+											<li class="list-group-item">
+												<p><span class="price">Price: <?php echo $product['price'] . ' kr' ?></span></p>
+											</li>
+										</ul>
+
+									</div>
+
+									<div class="card-footer">
+										<input class="btn btn-primary align-self-end" type="submit" value="Add to cart">
+									</div>
 								</div>
 							</div>
-						</div>
-					</form>
+						</form>
 
-				</div>
+					</div>
 
-			<?php endforeach; ?>
+			<?php endforeach;
+			} ?>
 		</div>
 	</div>
 
-		<footer class="page-footer">
-			<p>Security Shop</p>
-		</footer>
+	<footer class="page-footer">
+		<p>Security Shop</p>
+	</footer>
 
 
 </body>

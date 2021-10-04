@@ -10,16 +10,11 @@ body{
 .wrapper{ 
     width: 360px; padding: 20px; 
 }
-.login {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+.navbar-brand{
+    font-size: min(7vw, 50px);
 }
-.register {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+
 
 .navbar {
     background-color: rgba(27, 86, 153, 0.884);
@@ -38,7 +33,6 @@ body{
 .item-container{
     margin-top: 20px;
     width: 150em;
-    height: 250px;
     min-width: 150px;
     max-width: 300px;
     border: 2px solid rgb(0, 132, 255);
@@ -82,15 +76,22 @@ body{
     border-top: 2px solid rgb(0, 132, 255);
 }
 
+
 .card-img-top {
     width: 100%;
-    height: 15vw;
     object-fit: cover;
 }
 
+.card-group{
+    text-align: center;
+}
+
 .card{
-    height: 500px;
     transition: 0.5s ease;
+}
+
+.card li{
+background-color: transparent;
 }
 
 .card:hover{
