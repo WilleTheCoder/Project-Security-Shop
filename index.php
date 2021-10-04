@@ -8,7 +8,7 @@ $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
 $_POST["confirm_password"] = "";
 $searched = "";
-
+global $link;
 // Prepare a select statement
 //if user has searched for anything
 if (isset($_GET['search_form_submit'])) {
@@ -35,6 +35,40 @@ $result = mysqli_stmt_get_result($stmt);
 if (mysqli_num_rows($result) > 0) {
 	while ($row = mysqli_fetch_array($result)) {
 		$products[] = $row;
+	}
+}
+$status = "<script>alert('Product has already added to cart');</script>";
+$redirect = "<script> window.location = index.php; </script>";
+if(isset($_POST['add_to_cart'])) {
+            
+	// Add products to cart
+	if(isset($_SESSION['cart'])) { // Look if there is a session ongoing 
+		
+		$product_array_id = array_column($_SESSION['cart'], "product_id"); // assign all columns with product_id
+		
+		if(in_array($_POST['product_id'], $product_array_id)) { // check if product_id exists in cart
+			echo $status; // Tell user product already added
+			echo $redirect; // redirect to store.
+		} else { // product_id not exist
+			$count = count($_SESSION['cart']); // get number of product_ids in cart
+			
+			// create array with value of product_id into the key product_id
+			$product_array = array(
+				'product_id' => $_POST['product_id']
+			);
+			
+			$_SESSION['cart'][$count] = $product_array; // assign product_array to cart at index $count
+		}
+		echo $redirect;
+	} else { // if empty cart, add product to first index
+		
+		// create array with value of product_id into the key product_id
+		$product_array = array(
+			'product_id' => $_POST['product_id']
+		);
+		
+		$_SESSION['cart'][0] = $product_array; // assign on first index product_id array
+		echo $redirect;
 	}
 }
 ?>
@@ -73,7 +107,10 @@ if (mysqli_num_rows($result) > 0) {
 			<?php if (!(empty($products))) {
 				foreach ($products as $product) : ?>
 					<div class=" col-12 col-md-6 col-lg-5 col-xl-3 ">
-						<form action="" method="post">
+						<form action="" method="post" name="shopping_cart">
+							<?php
+								echo "<input type='hidden' name='product_id' value=". $product['id'] .">"
+							?>
 							<div class="card-group mt-4">
 								<div class="card" style="width: 18rem;">
 									<div>
@@ -99,7 +136,7 @@ if (mysqli_num_rows($result) > 0) {
 									</div>
 
 									<div class="card-footer">
-										<input class="btn btn-primary align-self-end" type="submit" value="Add to cart">
+										<input class="btn btn-primary align-self-end" name="add_to_cart" type="submit" value="Add to cart">
 									</div>
 								</div>
 							</div>

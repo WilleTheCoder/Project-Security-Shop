@@ -3,11 +3,19 @@
 session_start();
 // Include config file
 require_once "config.php";
+require "functions.php";
 
+global $link;
 //token for authentication when purchasing
 $token = bin2hex(random_bytes(16));
 
-
+// foreach($_SESSION['cart'] as $key => $value) { // get key(index) and value(productid in cart)
+//     if($value['product_id'] == $_GET['id']) { // compare if the value in array is the same as form to be removed
+//         unset($_SESSION['cart'][$key]);
+//         echo "<script> alert('Product removed');</script>";
+//         echo "<script> window.location = 'cart.php';</script>";
+//     }
+// }
 
 ?>
 
@@ -30,7 +38,34 @@ $token = bin2hex(random_bytes(16));
     ?>
     <div class="container">
         <h4>Shopping Cart</h4>
+        <div>
+        <?php
+                    $total_price = 0;
+                    if(isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
+                        $product_id = array_column($_SESSION['cart'], 'product_id');
+                        $result = getProducts($link);
+                        //echo "<div class='cart-display'>";
+                        while($row = $result->fetch_assoc()) {
+                            foreach($product_id as $id) {
+                                if($row['id'] == $id) {
+                                    $total_price += $row['price'];
+                                    cartProductRow($row['img'], $row['product_name'], $row['price'], $row['id']);
+                                }
+                            }
+                        }
+                        echo "
+                        </div>
+                        <div style='margin-left: 100px;'>
+                            <div>Total items: ".count($_SESSION['cart'])."</div>
+                            <div>Total price: ".$total_price."
+                        </div>";
 
+                    } else {
+                        echo "cart is empty";
+                    }
+                    $_SESSION['total_price'] = $total_price;
+                ?>
+            </div>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h4>Log in</h4>
             <input type="hidden" value="<?php echo $token; ?>" />

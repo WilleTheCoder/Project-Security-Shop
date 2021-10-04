@@ -97,4 +97,11 @@ background-color: transparent;
 .card:hover{
 background-color: rgba(206, 206, 206, 0.459);
 }
-  
+
+.cart-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 50%;
+    padding-top: 10px;
+}
