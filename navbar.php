@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="index.php"> <i class="bi bi-file-earmark-lock-fill"></i> Security Shop</a>
+			<a class="navbar-brand" href="index.php"> <img src="resource/img/swamp-icon.svg" class="swamp-icon" alt="swamp-icon"></i> Swamp Shop</a>
 			<div>
 				<ul class="navbar-nav justify-content-end">
 

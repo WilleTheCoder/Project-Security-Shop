@@ -21,7 +21,7 @@
 function cartProductRow($image, $name, $price, $id) {
     $row = "
             <div class='cart-content'>
-                <div class='cart-img'><img src='resource/img/$image' height='50' width='50'></div>
+                <div class='cart-img'><img src='resource/img/$image.jpg' height='50' width='50'></div>
                 <div class='cart-p-name'>$name</div>
                 <div class='cart-p-price'>$price</div>
                 <div class=''cart-p-form>

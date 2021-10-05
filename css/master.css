@@ -20,6 +20,11 @@ body{
     background-color: rgba(27, 86, 153, 0.884);
 }
 
+.swamp-icon{
+    height: 90px;
+    filter: invert(30%) sepia(18%) saturate(3916%) hue-rotate(183deg) brightness(88%) contrast(92%);
+}
+
 .container{
     margin-top: 20px;
     background-color: rgb(255, 255, 255);

@@ -47,5 +47,6 @@ INSERT INTO
   products (product_name, price, description, img)
 VALUES
   ('Exotisk svamp', 10000, "Exotic swamp for the swamp-king", "exotic-swamp"),
-  ('Enkel svamp', 100, "Just a simple swamp, found anywhere.", "simple-swamp")
+  ('Enkel svamp', 100, "Just a simple swamp, found anywhere.", "simple-swamp"),
+  ('Glow swamp', 1000, "its glows in the darkest of places!", "glow-swamp")
   
