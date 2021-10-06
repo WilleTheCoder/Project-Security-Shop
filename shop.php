@@ -27,7 +27,7 @@ $token = bin2hex(random_bytes(16));
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/master.css">
+    <link href="./css/master.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <title>Home</title>
 </head>
@@ -37,7 +37,7 @@ $token = bin2hex(random_bytes(16));
     include 'navbar.php';
     ?>
     <div class="container">
-        <h4>Shopping Cart</h4>
+        <h2>Shopping Cart</h2>
         <div>
         <?php
                     $total_price = 0;
@@ -67,8 +67,8 @@ $token = bin2hex(random_bytes(16));
                 ?>
             </div>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <h4>Log in</h4>
-            <input type="hidden" value="<?php echo $token; ?>" />
+            <h2>Cart</h2>
+            <input id="cart-res" type="hidden" value="<?php echo $token; ?>" />
 
             <div class="form-group mt-4">
                 <label>Full name</label>
@@ -76,7 +76,7 @@ $token = bin2hex(random_bytes(16));
             </div>
 
             <div class="form-group mt-4">
-                <label>Credit car number</label>
+                <label>Credit card number</label>
                 <input type="number" name="cc_nbr" class="form-control">
             </div>
 

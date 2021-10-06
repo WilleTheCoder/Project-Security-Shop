@@ -131,7 +131,7 @@ function checkBlacklist($password)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-    <link rel="stylesheet" href="./css/master.css">
+    <link href="./css/master.css?v=<?php echo time(); ?>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <title>Register</title>
 </head>
@@ -144,7 +144,7 @@ function checkBlacklist($password)
     <div class="container">
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <h4>Sign Up</h4>
+            <h2>Sign Up</h2>
             <p>Please fill this form to create an account.</p>
             <div class="form-group mt-4">
                 <label>Username</label>

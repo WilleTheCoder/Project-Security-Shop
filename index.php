@@ -88,12 +88,15 @@ if(isset($_POST['add_to_cart'])) {
 
 <body>
 
+
 	<?php
 	include 'navbar.php';
 	?>
 
+
 	<div class="container">
-		<h4>Shop</h4>
+	<h2 id="welcome">Check out our cool swamps?!</h2>
+
 
 		<h4><?php
 			if ($searched != "") {
@@ -106,7 +109,7 @@ if(isset($_POST['add_to_cart'])) {
 
 			<?php if (!(empty($products))) {
 				foreach ($products as $product) : ?>
-					<div class=" col-12 col-md-6 col-lg-5 col-xl-3 ">
+					<div class=" col-12 col-md-12 col-lg-6 col-xl-4 ">
 						<form action="" method="post" name="shopping_cart">
 							<?php
 								echo "<input type='hidden' name='product_id' value=". $product['id'] .">"
@@ -123,7 +126,7 @@ if(isset($_POST['add_to_cart'])) {
 
 										<ul class="list-group list-group-flush">
 											<li class="list-group-item">
-												<h4><?php echo $product['product_name'] ?></h4>
+												<h2> <?php echo $product['product_name'] ?> </h2>
 											</li>
 											<li class="list-group-item">
 												<p id="description" class="card-text"><?php echo $product['description'] ?></p>
