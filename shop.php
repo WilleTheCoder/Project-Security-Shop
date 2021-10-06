@@ -91,6 +91,11 @@ $token = bin2hex(random_bytes(16));
             </div>
 
             <div class="form-group mt-4">
+                <label>Ship to:</label>
+                <input type="text" name="address" class="form-control">
+            </div>
+
+            <div class="form-group mt-4">
                 <input type="submit" class="btn btn-primary" value="Submit">
                 <input type="reset" class="btn btn-secondary ml-2" value="Reset">
             </div>
