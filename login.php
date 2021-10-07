@@ -44,10 +44,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             // Incorrect password
             $username_err = 'Incorrect username and/or password!';
+            $password_err = 'Incorrect username and/or password!';
         }
     } else {
         // Incorrect password
         $username_err = 'Incorrect username and/or password!';
+        $password_err = 'Incorrect username and/or password!';
+        
     }
 }
 ?>

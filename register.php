@@ -12,7 +12,9 @@ $username_err = $password_err = $confirm_password_err = $address_err = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate username
-    if (!preg_match('/^[a-zA-Z0-9_]{6,}$/', trim($_POST["username"]))) {
+    if (empty(trim($_POST["username"]))) {
+        $username_err = "Please enter a username.";
+    } elseif (!preg_match('/^[a-zA-Z0-9_]{6,}$/', trim($_POST["username"]))) {
         $username_err = "Username can only contain letters, numbers, and underscores and must be longer than 6 characters.";
     } else {
 
@@ -48,8 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate password
     if (empty(trim($_POST["password"]))) {
         $password_err = "Please enter a password.";
-    } elseif (strlen(trim($_POST["password"])) < 6) {
-        $password_err = "Password must have atleast 6 characters.";
+    } elseif (!preg_match('"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"', trim($_POST["password"]))) {
+        $password_err = "Password must be longer than 8 character, contain atleast one uppercase letter, one lowercase letter, one number and one special character.";
     } elseif (checkBlacklist($_POST['password'])) {
         $password_err = "Password is blacklisted, choose a better one!";
     } else {
