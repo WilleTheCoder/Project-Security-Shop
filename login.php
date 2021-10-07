@@ -7,13 +7,14 @@ require_once "config.php";
 // Define variables and initialize with empty values
 $username = $password = "";
 $username_err = $password_err = "";
+$attemps_error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($_POST['username']) && !empty($_POST['password'])) {
 
         // Prepare a select statement
-        $sql = "SELECT password FROM users WHERE username = ?";
+        $sql = "SELECT password,attempts FROM users WHERE username = ?";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
@@ -31,28 +32,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (mysqli_stmt_num_rows($stmt) > 0) {
-        mysqli_stmt_bind_result($stmt, $pw);
+        mysqli_stmt_bind_result($stmt, $pw, $att);
         mysqli_stmt_fetch($stmt);
+        $trys = 5;
+        if ($att <= $trys) {
+            if (password_verify($_POST['password'], $pw)) {
+                $att = 0;
+                $attemps_error = "";
 
-        if (password_verify($_POST['password'], $pw)) {
+                // Prepare a select statement
+                $sql = "UPDATE users SET attempts = ? WHERE username = ?";
+                if ($stmt = mysqli_prepare($link, $sql)) {
+                    // Bind variables to the prepared statement as parameters
+                    mysqli_stmt_bind_param($stmt, "is", $attempts, $param_username);
+                    $attempts = $att;
+                    $param_username = trim($_POST["username"]);
+                    mysqli_stmt_execute($stmt);
+                }
 
-            session_regenerate_id();
-            $_SESSION['loggedin'] = TRUE;
-            $_SESSION['name'] = $_POST['username'];
-            echo 'Hello ' . $_SESSION['name'];
-            header('Location: index.php');
+                session_regenerate_id();
+                //SET SESSION VARS.
+                $_SESSION['loggedin'] = TRUE;
+                $_SESSION['name'] = $_POST['username'];
+                echo 'Hello ' . $_SESSION['name'];
+                header('Location: index.php');
+            } else {
+                // Incorrect password
+                $att = $att + 1;
+
+                // Prepare a select statement
+                $sql = "UPDATE users SET attempts = ? WHERE username = ?";
+                if ($stmt = mysqli_prepare($link, $sql)) {
+                    // Bind variables to the prepared statement as parameters
+                    mysqli_stmt_bind_param($stmt, "is", $attempts, $param_username);
+                    $attempts = $att;
+                    $param_username = trim($_POST["username"]);
+                    mysqli_stmt_execute($stmt);
+                    $attemps_error = "You have failed to login " . $att . " times, " . $trys - $att . " attempts left!";
+                }
+
+                $username_err = 'Incorrect username and/or password!';
+                $password_err = 'Incorrect username and/or password!';
+            }
         } else {
-            // Incorrect password
-            $username_err = 'Incorrect username and/or password!';
-            $password_err = 'Incorrect username and/or password!';
+            $attemps_error = "Account is locked, to many tries!";
         }
     } else {
         // Incorrect password
         $username_err = 'Incorrect username and/or password!';
         $password_err = 'Incorrect username and/or password!';
-        
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -78,6 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h2>Log in</h2>
+            <p> <?php echo $attemps_error; ?></p>
             <div class="form-group mt-4">
                 <label>Username</label>
                 <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>" required>

@@ -16,7 +16,8 @@ CREATE TABLE users (
   username VARCHAR(255) NOT NULL,
   password VARCHAR(255) NOT NULL,
   address VARCHAR(255) NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  attempts INTEGER DEFAULT 0
 );
 
 CREATE TABLE products (
