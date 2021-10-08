@@ -18,5 +18,5 @@ if($link === false){
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
 
-//token for authentication when purchasing
+//token for authentication
 $token = bin2hex(random_bytes(16));
