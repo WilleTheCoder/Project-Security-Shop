@@ -34,8 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_stmt_num_rows($stmt) > 0) {
         mysqli_stmt_bind_result($stmt, $pw, $att);
         mysqli_stmt_fetch($stmt);
+        $att = $att + 1;
         $trys = 5;
-        if ($att <= $trys) {
+        if ($att <=  $trys-1) {
             if (password_verify($_POST['password'], $pw)) {
                 $att = 0;
                 $attemps_error = "";
@@ -58,8 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header('Location: index.php');
             } else {
                 // Incorrect password
-                $att = $att + 1;
-
                 // Prepare a select statement
                 $sql = "UPDATE users SET attempts = ? WHERE username = ?";
                 if ($stmt = mysqli_prepare($link, $sql)) {
@@ -68,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $attempts = $att;
                     $param_username = trim($_POST["username"]);
                     mysqli_stmt_execute($stmt);
-                    $attemps_error = "You have failed to login " . $att . " times, " . $trys - $att . " attempts left!";
+                    $attemps_error = "You have failed to login " . $att . " times, " .  $trys - $att . " attempts left!";
                 }
 
                 $username_err = 'Incorrect username and/or password!';
