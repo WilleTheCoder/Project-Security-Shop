@@ -110,6 +110,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h2>Log in</h2>
             <p> <?php echo $attemps_error; ?></p>
+            <input id="login_token" type="hidden" value="<?php echo $token; ?>" />
+
             <div class="form-group mt-4">
                 <label>Username</label>
                 <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>" required>

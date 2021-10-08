@@ -148,6 +148,9 @@ function checkBlacklist($password)
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h2>Sign Up</h2>
             <p>Please fill this form to create an account.</p>
+
+            <input id="register_token" type="hidden" value="<?php echo $token; ?>" />
+
             <div class="form-group mt-4">
                 <label>Username</label>
                 <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">

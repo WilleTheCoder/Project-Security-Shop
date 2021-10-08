@@ -6,8 +6,7 @@ require_once "config.php";
 require "functions.php";
 
 global $link;
-//token for authentication when purchasing
-$token = bin2hex(random_bytes(16));
+
 
 // foreach($_SESSION['cart'] as $key => $value) { // get key(index) and value(productid in cart)
 //     if($value['product_id'] == $_GET['id']) { // compare if the value in array is the same as form to be removed
@@ -68,7 +67,7 @@ $token = bin2hex(random_bytes(16));
             </div>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <h2>Cart</h2>
-            <input id="cart-res" type="hidden" value="<?php echo $token; ?>" />
+            <input id="payment_token" type="hidden" value="<?php echo $token; ?>" />
 
             <div class="form-group mt-4">
                 <label>Full name</label>
