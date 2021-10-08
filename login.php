@@ -79,6 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } else {
         // Incorrect password
+        $attemps_error = "";
         $username_err = 'Incorrect username and/or password!';
         $password_err = 'Incorrect username and/or password!';
     }
