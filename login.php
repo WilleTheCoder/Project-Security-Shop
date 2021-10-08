@@ -55,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //SET SESSION VARS.
                 $_SESSION['loggedin'] = TRUE;
                 $_SESSION['name'] = $_POST['username'];
+               // $_SESSION['cart'] = array();
                 echo 'Hello ' . $_SESSION['name'];
                 header('Location: index.php');
             } else {

@@ -23,7 +23,7 @@ function cartProductRow($image, $name, $price, $id) {
             <div class='cart-content'>
                 <div class='cart-img'><img src='resource/img/$image.jpg' height='50' width='50'></div>
                 <div class='cart-p-name'>$name</div>
-                <div class='cart-p-price'>$price</div>
+                <div class='cart-p-price'>$price kr</div>
                 <div class=''cart-p-form>
                     <form method='post' action='cart.php?action=remove&id=$id'>
                         <button type='submit' name='remove'>Remove</button>
@@ -34,6 +34,22 @@ function cartProductRow($image, $name, $price, $id) {
 
     echo $row;
 }
+
+
+function ReceiptProductRow($image, $name, $price, $id) {
+    $row = "
+            <div class='cart-content'>
+                <div class='cart-img'><img src='resource/img/$image.jpg' height='50' width='50'></div>
+                <div class='cart-p-name'>$name</div>
+                <div class='cart-p-price'>$price kr </div>
+                <div class=''cart-p-form>
+                </div>
+            </div>
+    ";
+
+    echo $row;
+}
+
 function getProducts($link){
     $sql = "SELECT *
             FROM products";
