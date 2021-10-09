@@ -34,7 +34,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $submit_error = "Please add swamps to your cart before checkout!";
     }
 }
-
+if(!isset($_GET['action'])) {
+    $_GET['action'] = '';
+}
+if($_GET['action'] == 'remove') { // compare if value action is remove in form
+    foreach($_SESSION['cart'] as $key => $value) { // get key(index) and value(productid in cart)
+        if($value['product_id'] == $_GET['id']) { // compare if the value in array is the same as form to be removed
+            unset($_SESSION['cart'][$key]);
+            echo "<script> alert('Product removed');</script>";
+            echo "<script> window.location = 'shop.php';</script>";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>

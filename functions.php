@@ -25,7 +25,7 @@ function cartProductRow($image, $name, $price, $id) {
                 <div class='cart-p-name'>$name</div>
                 <div class='cart-p-price'>$price kr</div>
                 <div class=''cart-p-form>
-                    <form method='post' action='cart.php?action=remove&id=$id'>
+                    <form method='post' action='shop.php?action=remove&id=$id'>
                         <button type='submit' name='remove'>Remove</button>
                     </form>
                 </div>
