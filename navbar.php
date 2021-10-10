@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="index.php"> <img src="resource/img/swamp-icon.svg" class="swamp-icon" alt="swamp-icon"></i> Swamp Shop</a>
-<div>
+		<div>
 			<div>
 				<ul class="navbar-nav ml-4">
 					<?php
@@ -34,7 +34,7 @@
 					</form>
 
 				</ul>
-			</div></div>
+			</div>
+		</div>
 	</div>
 </nav>
-

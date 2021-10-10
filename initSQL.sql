@@ -9,8 +9,6 @@ DROP TABLE IF EXISTS users;
 
 DROP TABLE IF EXISTS orders;
 
-DROP TABLE IF EXISTS products;
-
 CREATE TABLE users (
   id INTEGER NOT NULL AUTO_INCREMENT,
   username VARCHAR(255) NOT NULL,
@@ -28,21 +26,6 @@ CREATE TABLE products (
   img VARCHAR(255),
   PRIMARY KEY (id)
 );
-
-CREATE TABLE orders (
-  id INTEGER NOT NULL AUTO_INCREMENT,
-  product_id INTEGER NOT NULL,
-  user_id INTEGER NOT NULL,
-  time_of_order TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (product_id) REFERENCES products(id),
-  PRIMARY KEY (id)
-);
-
-INSERT INTO
-  users (username, password, address)
-VALUES
-  ('Svampbob2', 'password1', 'Lund, Svampgatan 15A');
 
 INSERT INTO
   products (product_name, price, description, img)

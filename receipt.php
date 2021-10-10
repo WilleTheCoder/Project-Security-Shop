@@ -38,40 +38,39 @@ global $link;
     <div class="container">
         <h2>Receipt</h2>
         <?php
-                    $total_price = 0;
-                    if(isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
-                        $product_id = array_column($_SESSION['cart'], 'product_id');
-                        $result = getProducts($link);
-                        echo "<div class='cart-display'>";
-                        while($row = $result->fetch_assoc()) {
-                            foreach($product_id as $id) {
-                                if($row['id'] == $id) {
-                                    $total_price += $row['price'];
-                                    ReceiptProductRow($row['img'], $row['product_name'], $row['price'], $row['id']);
-                                }
-                            }
-                        }
+        $total_price = 0;
+        if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
+            $product_id = array_column($_SESSION['cart'], 'product_id');
+            $result = getProducts($link);
+            echo "<div class='cart-display'>";
+            while ($row = $result->fetch_assoc()) {
+                foreach ($product_id as $id) {
+                    if ($row['id'] == $id) {
+                        $total_price += $row['price'];
+                        ReceiptProductRow($row['img'], $row['product_name'], $row['price'], $row['id']);
+                    }
+                }
+            }
 
-                        echo "Address: " . $_SESSION['address'];
+            echo "Address: " . $_SESSION['address'];
 
-                        echo "
+            echo "
                         </div>
                         <div style='margin-left: 100px;'>
-                            <div>Total items: ".count($_SESSION['cart'])."</div>
-                            <div>Total price: ".$total_price ."kr" ."
+                            <div>Total items: " . count($_SESSION['cart']) . "</div>
+                            <div>Total price: " . $total_price . "kr" . "
                         </div>";
+        } else {
+            echo "cart is empty";
+        }
+        $_SESSION['total_price'] = $total_price;
+        ?>
+    </div>
 
-                    } else {
-                        echo "cart is empty";
-                    }
-                    $_SESSION['total_price'] = $total_price;
-                ?>
-            </div>
+    <?php
+    unset($_SESSION['cart']);
 
-<?php 
-unset($_SESSION['cart']);
-
-?>
+    ?>
     </div>
 
     </div>

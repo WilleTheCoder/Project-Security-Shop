@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_stmt_fetch($stmt);
         $att = $att + 1;
         $trys = 5;
-        if ($att <=  $trys-1) {
+        if ($att <=  $trys - 1) {
             if (password_verify($_POST['password'], $pw)) {
                 $att = 0;
                 $attemps_error = "";
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //SET SESSION VARS.
                 $_SESSION['loggedin'] = TRUE;
                 $_SESSION['name'] = $_POST['username'];
-               // $_SESSION['cart'] = array();
+                // $_SESSION['cart'] = array();
                 echo 'Hello ' . $_SESSION['name'];
                 header('Location: index.php');
             } else {

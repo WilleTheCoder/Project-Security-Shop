@@ -22,8 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_SESSION['cart'])) {
 
         if (
-            empty(trim($_POST["f_name"])) && empty(trim($_POST["cc_nbr"])) && empty(trim($_POST["exp_date"])) && empty(trim($_POST["ccv"]))
-            && empty(trim($_POST["address"]))
+            empty(trim($_POST["f_name"])) || empty(trim($_POST["cc_nbr"])) || empty(trim($_POST["exp_date"])) || empty(trim($_POST["ccv"]))
+            || empty(trim($_POST["address"]))
         ) {
             $form_error = "Please fill in form";
         } else {
@@ -34,12 +34,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $submit_error = "Please add swamps to your cart before checkout!";
     }
 }
-if(!isset($_GET['action'])) {
+if (!isset($_GET['action'])) {
     $_GET['action'] = '';
 }
-if($_GET['action'] == 'remove') { // compare if value action is remove in form
-    foreach($_SESSION['cart'] as $key => $value) { // get key(index) and value(productid in cart)
-        if($value['product_id'] == $_GET['id']) { // compare if the value in array is the same as form to be removed
+if ($_GET['action'] == 'remove') { // compare if value action is remove in form
+    foreach ($_SESSION['cart'] as $key => $value) { // get key(index) and value(productid in cart)
+        if ($value['product_id'] == $_GET['id']) { // compare if the value in array is the same as form to be removed
             unset($_SESSION['cart'][$key]);
             echo "<script> alert('Product removed');</script>";
             echo "<script> window.location = 'shop.php';</script>";
