@@ -79,7 +79,7 @@ if (isset($_POST['add_to_cart'])) {
 
 
 	<?php
-	include 'navbar.php';
+	include 'navbar_unsafe.php';
 	?>
 
 
