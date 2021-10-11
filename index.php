@@ -35,8 +35,17 @@ if (mysqli_num_rows($result) > 0) {
 $status = "<script>alert('Product has already added to cart');</script>";
 $redirect = "<script> window.location = index.php; </script>";
 
-if (isset($_POST['add_to_cart']) && !empty($_POST['token'])) {
+echo "TOKEN: " . $_SESSION['token'];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+	if(!empty($_POST["token"])){
+	echo "token not empty". "<br>";
+
+	echo "POST_token: " . $_POST["token"]. "<br>" ;
+	echo "Session_token: " . $_SESSION["token"];
 	if (hash_equals($_SESSION['token'], $_POST['token'])) {
+
 		// Add products to cart
 		if (isset($_SESSION['cart'])) { // Look if there is a session ongoing 
 
@@ -67,6 +76,7 @@ if (isset($_POST['add_to_cart']) && !empty($_POST['token'])) {
 			echo $redirect;
 		}
 	}
+}
 }
 
 
@@ -109,13 +119,13 @@ if (isset($_POST['add_to_cart']) && !empty($_POST['token'])) {
 			<?php if (!(empty($products))) {
 				foreach ($products as $product) : ?>
 					<div class=" col-12 col-md-12 col-lg-6 col-xl-4 ">
+
 						<form action="" method="post" name="shopping_cart">
 							<?php
 							echo "<input type='hidden' name='product_id' value=" . $product['id'] . ">"
-
 							?>
 
-							<input id="cart_add_token" type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+							<input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" >
 
 							<div class="card-group mt-4">
 								<div class="card" style="width: 18rem;">
