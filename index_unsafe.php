@@ -4,19 +4,16 @@ session_start();
 require_once "config.php";
 
 // Define variables and initialize with empty values
-$username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
-$_POST["confirm_password"] = "";
 $searched = "";
 global $link;
 // Prepare a select statement
 //if user has searched for anything
-if (isset($_GET['search_form_submit'])) {
+if (isset($_GET['search_form_submit']) && ($_GET["search"] != "")) {
 	$searched = $_GET['search'];
 
 	//A) susceptible to sql-injection BUT WORKS:
 
-	$sql = "SELECT * FROM products WHERE product_name LIKE '%$searched%'";
+	$sql = "SELECT * FROM products WHERE product_name = '$searched'";
 	$stmt = mysqli_query($link, $sql);
 
 	while ($row = mysqli_fetch_assoc($stmt)) {
@@ -25,7 +22,17 @@ if (isset($_GET['search_form_submit'])) {
 } else {
 	$sql = "SELECT * FROM products";
 	$stmt = mysqli_prepare($link, $sql);
+
+	mysqli_stmt_execute($stmt);
+	$result = mysqli_stmt_get_result($stmt);
+	if (mysqli_num_rows($result) > 0) {
+		while ($row = mysqli_fetch_array($result)) {
+			$products[] = $row;
+		}
+	}
 }
+
+
 $status = "<script>alert('Product has already added to cart');</script>";
 $redirect = "<script> window.location = index.php; </script>";
 if (isset($_POST['add_to_cart'])) {

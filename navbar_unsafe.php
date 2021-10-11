@@ -18,10 +18,10 @@
 					if (!isset($_SESSION['name'])) { ?>
 						<li class="nav-item">
 							<a class="nav-link" href='register.php'> <i class="bi bi-person-plus"></i> Register</a>
-							<p id="unsafe">unsafe</p>
+	
 						</li>
 					<?php } ?>
-
+					<p id="unsafe">unsafe</p>
 					<li class="nav-item">
 						<a class="nav-link" href="shop.php"> <i class="bi bi-cart2"></i></i> Cart</a>
 					</li>

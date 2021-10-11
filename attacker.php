@@ -13,7 +13,7 @@
   <body onload="document.forms[0].submit()">
 
   <!-- change action index.php -->
-<form action="index_unsafe.php" method="post" name="shopping_cart">
+<form action="index.php" method="post" name="shopping_cart">
   <input type='hidden' name='product_id' value="1"/>
   <input type="hidden" name="add_to_cart" type="submit"/>
 </form>
