@@ -26,6 +26,13 @@ CREATE TABLE products (
   img VARCHAR(255),
   PRIMARY KEY (id)
 );
+CREATE TABLE Orders(
+    FullName VARCHAR(250) NOT NULL,
+    orderID INT NOT NULL AUTO_INCREMENT,
+    orderTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    productID TEXT NOT NULL,
+    PRIMARY KEY(orderID),
+);
 
 INSERT INTO
   products (product_name, price, description, img)
