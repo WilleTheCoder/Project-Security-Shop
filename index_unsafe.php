@@ -14,24 +14,26 @@ global $link;
 if (isset($_GET['search_form_submit'])) {
 	$searched = $_GET['search'];
 
-	//B) Protects against sql-injection with prepare statements:
-	$sql = "SELECT * FROM products WHERE product_name LIKE CONCAT( '%',?,'%')";
-	if ($stmt = mysqli_prepare($link, $sql)) {
-		mysqli_stmt_bind_param($stmt, "s", $param_searched);
-		$param_searched = trim($_GET["search"]);
+	//A) susceptible to sql-injection BUT WORKS:
+
+	$sql = "SELECT * FROM products WHERE product_name LIKE '%$searched%'";
+	$stmt = mysqli_query($link, $sql);
+
+	while ($row = mysqli_fetch_assoc($stmt)) {
+		$products[] = $row;
 	}
 } else {
 	$sql = "SELECT * FROM products";
 	$stmt = mysqli_prepare($link, $sql);
 }
 
-mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-if (mysqli_num_rows($result) > 0) {
-	while ($row = mysqli_fetch_array($result)) {
-		$products[] = $row;
-	}
-}
+// mysqli_stmt_execute($stmt);
+// $result = mysqli_stmt_get_result($stmt);
+// if (mysqli_num_rows($result) > 0) {
+// 	while ($row = mysqli_fetch_array($result)) {
+// 		$products[] = $row;
+// 	}
+// }
 $status = "<script>alert('Product has already added to cart');</script>";
 $redirect = "<script> window.location = index.php; </script>";
 if (isset($_POST['add_to_cart'])) {
