@@ -35,15 +35,9 @@ if (mysqli_num_rows($result) > 0) {
 $status = "<script>alert('Product has already added to cart');</script>";
 $redirect = "<script> window.location = index.php; </script>";
 
-echo "TOKEN: " . $_SESSION['token'];
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 	if(!empty($_POST["token"])){
-	echo "token not empty". "<br>";
-
-	echo "POST_token: " . $_POST["token"]. "<br>" ;
-	echo "Session_token: " . $_SESSION["token"];
 	if (hash_equals($_SESSION['token'], $_POST['token'])) {
 
 		// Add products to cart
