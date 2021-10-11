@@ -19,4 +19,4 @@ if ($link === false) {
 }
 
 //token for authentication
-$_SESSION['token'] = bin2hex(random_bytes(16));
+$token = bin2hex(random_bytes(16));
