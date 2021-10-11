@@ -104,9 +104,6 @@ if (isset($_POST['add_to_cart'])) {
 							echo "<input type='hidden' name='product_id' value=" . $product['id'] . ">"
 							?>
 
-							<input id="cart_add_token" type="hidden" value="<?php echo $token; ?>" />
-
-
 							<div class="card-group mt-4">
 								<div class="card" style="width: 18rem;">
 									<div>
