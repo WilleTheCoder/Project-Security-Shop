@@ -89,7 +89,7 @@ if (isset($_POST['add_to_cart'])) {
 
 		<h4><?php
 			if ($searched != "") {
-				echo htmlspecialchars("Results for '$searched'");
+				echo "Results for '$searched'";
 			}
 			?></h4>
 

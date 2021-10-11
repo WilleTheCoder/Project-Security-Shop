@@ -18,7 +18,7 @@
 					if (!isset($_SESSION['name'])) { ?>
 						<li class="nav-item">
 							<a class="nav-link" href='register.php'> <i class="bi bi-person-plus"></i> Register</a>
-							<p>unsafe</p>
+							<p id="unsafe">unsafe</p>
 						</li>
 					<?php } ?>
 

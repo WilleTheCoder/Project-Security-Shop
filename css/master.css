@@ -22,6 +22,10 @@ body{
     background-color: black;
 }
 
+#unsafe{
+    color: red;
+}
+
 #welcome{
     text-align: center;
 }
