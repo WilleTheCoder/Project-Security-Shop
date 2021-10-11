@@ -35,46 +35,41 @@ if (mysqli_num_rows($result) > 0) {
 $status = "<script>alert('Product has already added to cart');</script>";
 $redirect = "<script> window.location = index.php; </script>";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	if (isset($_POST['add_to_cart'])) {
-		if (!empty($_POST['token'])) {
-			if (hash_equals(
-				$_SESSION['token'],
-				$_POST['token']
-			)) {
-				// Add products to cart
-				if (isset($_SESSION['cart'])) { // Look if there is a session ongoing 
+if (isset($_POST['add_to_cart']) && !empty($_POST['token'])) {
+	if (hash_equals($_SESSION['token'], $_POST['token'])) {
+		// Add products to cart
+		if (isset($_SESSION['cart'])) { // Look if there is a session ongoing 
 
-					$product_array_id = array_column($_SESSION['cart'], "product_id"); // assign all columns with product_id
+			$product_array_id = array_column($_SESSION['cart'], "product_id"); // assign all columns with product_id
 
-					if (in_array($_POST['product_id'], $product_array_id)) { // check if product_id exists in cart
-						echo $status; // Tell user product already added
-						echo $redirect; // redirect to store.
-					} else { // product_id not exist
-						$count = count($_SESSION['cart']); // get number of product_ids in cart
+			if (in_array($_POST['product_id'], $product_array_id)) { // check if product_id exists in cart
+				echo $status; // Tell user product already added
+				echo $redirect; // redirect to store.
+			} else { // product_id not exist
+				$count = count($_SESSION['cart']); // get number of product_ids in cart
 
-						// create array with value of product_id into the key product_id
-						$product_array = array(
-							'product_id' => $_POST['product_id']
-						);
+				// create array with value of product_id into the key product_id
+				$product_array = array(
+					'product_id' => $_POST['product_id']
+				);
 
-						$_SESSION['cart'][$count] = $product_array; // assign product_array to cart at index $count
-					}
-					echo $redirect;
-				} else { // if empty cart, add product to first index
-
-					// create array with value of product_id into the key product_id
-					$product_array = array(
-						'product_id' => $_POST['product_id']
-					);
-
-					$_SESSION['cart'][0] = $product_array; // assign on first index product_id array
-					echo $redirect;
-				}
+				$_SESSION['cart'][$count] = $product_array; // assign product_array to cart at index $count
 			}
+			echo $redirect;
+		} else { // if empty cart, add product to first index
+
+			// create array with value of product_id into the key product_id
+			$product_array = array(
+				'product_id' => $_POST['product_id']
+			);
+
+			$_SESSION['cart'][0] = $product_array; // assign on first index product_id array
+			echo $redirect;
 		}
 	}
 }
+
+
 ?>
 
 <!DOCTYPE html>
