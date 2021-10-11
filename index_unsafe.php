@@ -26,14 +26,6 @@ if (isset($_GET['search_form_submit'])) {
 	$sql = "SELECT * FROM products";
 	$stmt = mysqli_prepare($link, $sql);
 }
-
-// mysqli_stmt_execute($stmt);
-// $result = mysqli_stmt_get_result($stmt);
-// if (mysqli_num_rows($result) > 0) {
-// 	while ($row = mysqli_fetch_array($result)) {
-// 		$products[] = $row;
-// 	}
-// }
 $status = "<script>alert('Product has already added to cart');</script>";
 $redirect = "<script> window.location = index.php; </script>";
 if (isset($_POST['add_to_cart'])) {
