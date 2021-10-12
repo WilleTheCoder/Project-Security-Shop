@@ -1,3 +1,15 @@
+<!-- 
+	SQL injection
+	bil' OR 1=1 OR 'bil 
+
+	XSS
+	index_unsafe.php?search=<script>while%28true%29%7Balert%28"you+got+hacked"%29%7D<%2Fscript>&search_form_submit=Search
+
+	CSRF:
+	attacker.php while logged in 
+
+-->
+
 <?php
 // Starting session
 session_start();
